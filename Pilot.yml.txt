@@ -1,613 +1,307 @@
 openapi: 3.0.0
-
 info:
-
   title: Survey API
-
   description: API documentation for the Survey application.
-
   version: 1.0.0
-
 servers:
-
-  - url: /api/v1
-
+  - url: http://localhost:8080/
 paths:
-
-  /survey/getAll:
-
+  /dashboard:
     get:
-
-      summary: Get All Surveys
-
-      description: Retrieves all surveys including id, company name, requested by, status, and domain.
-
+      summary: Dashboard
+      description: Retrieves the dashboard.
       responses:
-
         '200':
+          description: Successfully retrieved the dashboard.
 
-          description: Successfully retrieved the list of surveys.
+ 
 
+  /createassessment:
+    get:
+      summary: Get All Assessments
+      description: Retrieves a list of all assessments.
+      responses:
+        '200':
+          description: Successfully retrieved the list of assessments.
           content:
-
             application/json:
-
               schema:
-
                 type: array
-
                 items:
-
                   type: object
-
                   properties:
-
-                    id:
-
+                    slno:
                       type: string
-
-                    companyName:
-
+                    setname:
                       type: string
-
-                    requestedBy:
-
+                    createdby:
                       type: string
-
-                    status:
-
-                      type: string
-
                     domain:
-
+                      type: string
+                    status:
                       type: string
 
-  /domains:
-
-    get:
-
-      summary: Get All Domains
-
-      description: Retrieves all domains.
-
-      responses:
-
-        '200':
-
-          description: Successfully retrieved the list of domains.
-
-          content:
-
-            application/json:
-
-              schema:
-
-                type: array
-
-                items:
-
-                  type: object
-
-                  properties:
-
-                    domainId:
-
-                      type: string
-
-                    domainName:
-
-                      type: string
-
-  /survey/addSurvey:
-
+ 
+  /createassessment/newassessment:
     post:
-
-      summary: Add a New Survey
-
-      description: Creates a new survey with the provided details.
-
+      summary: Create New Assessment
+      description: Creates a new assessment with the provided details.
       requestBody:
-
         content:
-
           application/json:
-
             schema:
-
               type: object
-
               properties:
-
+                setname:
+                  type: string
                 domain:
-
                   type: string
-
-                email:
-
-                  type: string
-
-                id:
-
-                  type: string
-
-                setName:
-
-                  type: string
-
-                status:
-
-                  type: string
-
-                companyName:
-
-                  type: string
-
               required:
-
+                - setname
                 - domain
-
-                - email
-
-                - id
-
-                - setName
-
-                - status
-
-                - companyName
-
       responses:
-
         '201':
+          description: Successfully created the new assessment.
 
-          description: Successfully created the survey.
+ 
 
-  /createassessment/add-set:
-
+  /createassessment/{setname}/addquestion:
     post:
-
-      summary: Add Set
-
-      description: Creates a new set with a name and domain.
-
+      summary: Add Question to Assessment
+      description: Adds a question to the specified assessment set.
+      parameters:
+        - name: setname
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
-
         content:
-
           application/json:
-
             schema:
-
               type: object
-
               properties:
-
-                setName:
-
+                setname:
                   type: string
-
                 domain:
-
                   type: string
-
+                createdby:
+                  type: string
+                createdtime:
+                  type: string
+                  format: date-time
+                questions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      question:
+                        type: string
+                      options:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            answerId:
+                              type: string
+                            answer:
+                              type: string
+                            suggestion:
+                              type: string
       responses:
-
         '201':
+          description: Successfully added the question to the assessment.
 
-          description: Successfully created the set.
+ 
 
-  /createassessment/get-questions/{setName}:
-
-    get:
-
-      summary: Get Set Name Questions
-
-      description: Fetches all questions for a given set name.
-
+  /createassessment/{setname}/question/{questionid}:
+    put:
+      summary: Update Question in Assessment
+      description: Updates the details of a specific question in the assessment set.
       parameters:
-
-        - name: setName
-
+        - name: setname
           in: path
-
           required: true
-
           schema:
-
             type: string
-
-      responses:
-
-        '200':
-
-          description: Successfully retrieved the list of questions.
-
-          content:
-
-            application/json:
-
-              schema:
-
-                type: array
-
-                items:
-
-                  type: object
-
-                  properties:
-
-                    questionId:
-
-                      type: string
-
-                    question:
-
-                      type: string
-
-  /createassessment/add-questions/{setName}:
-
-    post:
-
-      summary: Add Questions to Set Name
-
-      description: Adds a list of questions to the set identified by setName.
-
-      parameters:
-
-        - name: setName
-
+        - name: questionid
           in: path
-
           required: true
-
           schema:
-
             type: string
-
       requestBody:
-
         content:
-
           application/json:
-
             schema:
-
-              type: array
-
-              items:
-
-                type: object
-
-                properties:
-
-                  questionId:
-
-                    type: string
-
-                  question:
-
-                    type: string
-
-                  createdAt:
-
-                    type: string
-
-                    format: date-time
-
-                  modifiedAt:
-
-                    type: string
-
-                    format: date-time
-
+              type: object
+              properties:
+                question:
+                  type: string
+                options:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      answerId:
+                        type: string
+                      answer:
+                        type: string
+                      suggestion:
+                        type: string
       responses:
-
-        '201':
-
-          description: Successfully added the questions to the set.
-
-  /createassessment/get-answers/{setName}/questions/{questionId}:
-
-    get:
-
-      summary: Get Answers for a Question
-
-      description: Fetches answers for a specific question identified by questionId in the set identified by setName.
-
-      parameters:
-
-        - name: setName
-
-          in: path
-
-          required: true
-
-          schema:
-
-            type: string
-
-        - name: questionId
-
-          in: path
-
-          required: true
-
-          schema:
-
-            type: string
-
-      responses:
-
         '200':
+          description: Successfully updated the question.
 
-          description: Successfully retrieved the answers.
-
-          content:
-
-            application/json:
-
-              schema:
-
-                type: array
-
-                items:
-
-                  type: object
-
-                  properties:
-
-                    answerId:
-
-                      type: string
-
-                    answer:
-
-                      type: string
-
-                    suggestion:
-
-                      type: string
-
-  /createassessment/add-answers/{setName}/questions/{questionId}:
-
-    post:
-
-      summary: Add Answers to a Question
-
-      description: Adds a list of answers to a specific question identified by questionId.
-
-      parameters:
-
-        - name: setName
-
-          in: path
-
-          required: true
-
-          schema:
-
-            type: string
-
-        - name: questionId
-
-          in: path
-
-          required: true
-
-          schema:
-
-            type: string
-
-      requestBody:
-
-        content:
-
-          application/json:
-
-            schema:
-
-              type: array
-
-              items:
-
-                type: object
-
-                properties:
-
-                  answerId:
-
-                    type: string
-
-                  answer:
-
-                    type: string
-
-                  suggestion:
-
-                    type: string
-
-      responses:
-
-        '201':
-
-          description: Successfully added the answers to the question.
-
-  /createassessment/delete-question/{setName}/questions/{questionId}:
+ 
 
     delete:
-
-      summary: Delete a Question
-
-      description: Deletes a specific question identified by questionId from the set identified by setName.
-
+      summary: Delete Question from Assessment
+      description: Deletes a specific question from the assessment set.
       parameters:
-
-        - name: setName
-
+        - name: setname
           in: path
-
           required: true
-
           schema:
-
             type: string
-
-        - name: questionId
-
+        - name: questionid
           in: path
-
           required: true
-
           schema:
-
             type: string
-
       responses:
-
         '204':
-
           description: Successfully deleted the question.
 
-  /createassessment/delete-answer/{setName}/questions/{questionId}/answers/{answerId}:
+ 
 
-    delete:
-
-      summary: Delete an Answer
-
-      description: Deletes a specific answer identified by answerId from a question identified by questionId.
-
+  /createassessment/{setname}/questions:
+    get:
+      summary: Get Questions from Assessment
+      description: Retrieves a list of questions from a specific assessment set.
       parameters:
-
-        - name: setName
-
+        - name: setname
           in: path
-
           required: true
-
           schema:
-
             type: string
-
-        - name: questionId
-
-          in: path
-
-          required: true
-
-          schema:
-
-            type: string
-
-        - name: answerId
-
-          in: path
-
-          required: true
-
-          schema:
-
-            type: string
-
       responses:
+        '200':
+          description: Successfully retrieved the list of questions.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    questionId:
+                      type: string
+                    question:
+                      type: string
+                    options:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          answerId:
+                            type: string
+                          answer:
+                            type: string
+                          suggestion:
+                            type: string
 
-        '204':
+ 
 
-          description: Successfully deleted the answer.
-
-  /createassessment/add-from-existing/{newSetName}/{existingSetName}/{questionId}:
-
+  /createassessment/{setname}/questions/{questionid}/answers:
     post:
-
-      summary: Add Questions from Existing Set to New Set
-
-      description: Adds a question from an existing set identified by questionId to a new set identified by newSetName.
-
+      summary: Add Answers to Question
+      description: Adds answers to a specific question in the assessment set.
       parameters:
-
-        - name: newSetName
-
+        - name: setname
           in: path
-
           required: true
-
           schema:
-
             type: string
-
-        - name: existingSetName
-
+        - name: questionid
           in: path
-
           required: true
-
           schema:
-
             type: string
-
-        - name: questionId
-
-          in: path
-
-          required: true
-
-          schema:
-
-            type: string
-
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  answerId:
+                    type: string
+                  answer:
+                    type: string
+                  suggestion:
+                    type: string
       responses:
-
         '201':
+          description: Successfully added answers to the question.
 
+ 
+
+  /createassessment/{newsetname}/fromexisting/{existingsetname}/questions/{questionid}:
+    post:
+      summary: Add Question from Existing Set to New Set
+      description: Adds a question from an existing assessment set to a new assessment set.
+      parameters:
+        - name: newsetname
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: existingsetname
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: questionid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
           description: Successfully added the question from the existing set to the new set.
 
-  /createassessment/{setName}/get-questions-fromexisting:
+ 
 
-    get:
-
-      summary: Get Questions from Set
-
-      description: Retrieves a list of questions from the set identified by setName.
-
-      parameters:
-
-        - name: setName
-
-          in: path
-
-          required: true
-
-          schema:
-
-            type: string
-
+  /survey/create:
+    post:
+      summary: Create New Survey
+      description: Creates a new survey with the provided details.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                domain:
+                  type: string
+                email:
+                  type: string
+                id:
+                  type: string
+                setName:
+                  type: string
+                status:
+                  type: string
+                companyName:
+                  type: string
+              required:
+                - domain
+                - email
+                - id
+                - setName
+                - status
+                - companyName
       responses:
-
-        '200':
-
-          description: Successfully retrieved the list of questions from the specified set.
-
-          content:
-
-            application/json:
-
-              schema:
-
-                type: array
-
-                items:
-
-                  type: object
-
-                  properties:
-
-                    questionId:
-
-                      type: string
-
-                      description: The unique identifier of the question.
-
-                    questionText:
-
-                      type: string
-
-                      description: The text of the question.
+        '201':
+          description: Successfully created the new survey.
