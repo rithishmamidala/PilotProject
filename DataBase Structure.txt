@@ -1,0 +1,60 @@
+Table User {
+  user_id INT [pk, increment] // Unique identifier for each user
+  username VARCHAR [unique, not null] // User's login name
+  password VARCHAR [not null] // User's hashed password
+  company_name VARCHAR [not null] // Company name associated with the user
+  role VARCHAR [not null] // User's role (e.g., admin, user)
+}
+
+ 
+
+Table Domain {
+  domain_id INT [pk, increment] // Unique identifier for each domain
+  domain_name VARCHAR [unique, not null] // Name of the domain
+}
+
+ 
+
+Table Assessment {
+  si_no INT [pk, increment] // Serial number of the assessment
+  assessment_id VARCHAR [unique, not null] // Unique identifier for each assessment
+  requester VARCHAR [not null] // Name of the person requesting the assessment
+  company_name VARCHAR [not null] // Company name related to the assessment
+  domain_name VARCHAR [not null] // Domain name related to the assessment
+  status VARCHAR [not null] // Status of the assessment
+}
+
+ 
+
+Table Set {
+  set_id INT [pk, increment] // Unique identifier for each set
+  set_name VARCHAR [unique, not null] // Name of the set
+  created_by VARCHAR [not null] // Name of the person who created the set
+  domain_name VARCHAR [not null] // Domain name associated with the set
+  status VARCHAR [not null] // Status of the set
+}
+
+ 
+
+Table Question {
+  question_id INT [pk, increment] // Unique identifier for each question
+  question_text TEXT [not null] // Text of the question
+  set_id INT // Identifier of the set to which the question belongs
+  createdAt TIMESTAMP [default: current_timestamp] // Timestamp when the question was created
+  modifiedAt TIMESTAMP [default: current_timestamp on update: current_timestamp] // Timestamp when the question was last modified
+}
+
+ 
+
+Table Answer {
+  answer_id INT [pk, increment] // Unique identifier for each answer
+  question_id INT // Identifier of the question to which the answer belongs
+  answer_value TEXT [not null] // Value of the answer
+  suggestions TEXT // Suggestions related to the answer
+}
+
+ 
+
+Ref: Set.set_id > Question.set_id
+Ref: Question.question_id > Answer.question_id
+Ref: Domain.domain_name > Assessment.domain_name
