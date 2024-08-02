@@ -6,13 +6,13 @@ info:
 servers:
   - url: http://localhost:8080/
 paths:
-  /dashboard:
-    get:
-      summary: Dashboard
-      description: Retrieves the dashboard.
-      responses:
-        '200':
-          description: Successfully retrieved the dashboard.
+  # /dashboard:
+  #   get:
+  #     summary: Dashboard
+  #     description: Retrieves the dashboard.
+  #     responses:
+  #       '200':
+  #         description: Successfully retrieved the dashboard.
 
  
 
@@ -81,20 +81,14 @@ paths:
             schema:
               type: object
               properties:
-                setname:
-                  type: string
-                domain:
-                  type: string
-                createdby:
-                  type: string
-                createdtime:
-                  type: string
-                  format: date-time
+                
                 questions:
                   type: array
                   items:
                     type: object
                     properties:
+                      questionId:
+                        type: string
                       question:
                         type: string
                       options:
@@ -212,64 +206,64 @@ paths:
 
  
 
-  /createassessment/{setname}/questions/{questionid}/answers:
-    post:
-      summary: Add Answers to Question
-      description: Adds answers to a specific question in the assessment set.
-      parameters:
-        - name: setname
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: questionid
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                type: object
-                properties:
-                  answerId:
-                    type: string
-                  answer:
-                    type: string
-                  suggestion:
-                    type: string
-      responses:
-        '201':
-          description: Successfully added answers to the question.
+  # /createassessment/{setname}/questions/{questionid}/answers:
+  #   post:
+  #     summary: Add Answers to Question
+  #     description: Adds answers to a specific question in the assessment set.
+  #     parameters:
+  #       - name: setname
+  #         in: path
+  #         required: true
+  #         schema:
+  #           type: string
+  #       - name: questionid
+  #         in: path
+  #         required: true
+  #         schema:
+  #           type: string
+  #     requestBody:
+  #       content:
+  #         application/json:
+  #           schema:
+  #             type: array
+  #             items:
+  #               type: object
+  #               properties:
+  #                 answerId:
+  #                   type: string
+  #                 answer:
+  #                   type: string
+  #                 suggestion:
+  #                   type: string
+  #     responses:
+  #       '201':
+  #         description: Successfully added answers to the question.
 
  
 
-  /createassessment/{newsetname}/fromexisting/{existingsetname}/questions/{questionid}:
-    post:
-      summary: Add Question from Existing Set to New Set
-      description: Adds a question from an existing assessment set to a new assessment set.
-      parameters:
-        - name: newsetname
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: existingsetname
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: questionid
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '201':
-          description: Successfully added the question from the existing set to the new set.
+  # /createassessment/{newsetname}/fromexisting/{existingsetname}/questions/{questionid}:
+  #   post:
+  #     summary: Add Question from Existing Set to New Set
+  #     description: Adds a question from an existing assessment set to a new assessment set.
+  #     parameters:
+  #       - name: newsetname
+  #         in: path
+  #         required: true
+  #         schema:
+  #           type: string
+  #       - name: existingsetname
+  #         in: path
+  #         required: true
+  #         schema:
+  #           type: string
+  #       - name: questionid
+  #         in: path
+  #         required: true
+  #         schema:
+  #           type: string
+  #     responses:
+  #       '201':
+  #         description: Successfully added the question from the existing set to the new set.
 
  
 
