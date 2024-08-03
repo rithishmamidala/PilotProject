@@ -1,5 +1,6 @@
 package com.ust.Assessment.service;
 
+import com.ust.Assessment.dto.SetDto;
 import com.ust.Assessment.model.Answer;
 import com.ust.Assessment.model.Question;
 import com.ust.Assessment.model.SetInfo;
@@ -9,7 +10,9 @@ import com.ust.Assessment.repository.SetInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -60,4 +63,43 @@ public class AssessmentService {
     }
 
 
+    public SetInfo getSetBySetName(String setname) {
+        return setInfoRepository.findBySetName(setname).get();
+    }
+
+    public List<SetDto> getAllSet() {
+
+        return mapSetInfoListToSetDtoList(setInfoRepository.findAll());
+    }
+
+    public List<SetDto> mapSetInfoListToSetDtoList(List<SetInfo> setInfoList) {
+        return setInfoList.stream()
+                .map(this::mapSetInfoToSetDto)
+                .collect(Collectors.toList());
+    }
+
+    private SetDto mapSetInfoToSetDto(SetInfo setInfo) {
+        return new SetDto(
+                setInfo.getSetId(),
+                setInfo.getSetName(),
+                setInfo.getCreatedBy(),
+                setInfo.getDomain(),
+                setInfo.getStatus()
+        );
+    }
+
+    public Question modifySetQuestionInfo(String setName, Integer questionId, Question question) {
+
+        Optional<SetInfo> setInfo = setInfoRepository.findBySetName(setName);
+            Optional<Question> currentQuestion = questionRepository.findById(questionId);
+            if (currentQuestion.isPresent() && setInfo.isPresent()){
+                question.setQuestionId(questionId);
+                questionRepository.save(question);
+                return question;
+
+            }else {
+                throw new RuntimeException("question/set doesnt exist");
+            }
+
+    }
 }

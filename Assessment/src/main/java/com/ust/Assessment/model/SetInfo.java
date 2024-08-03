@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,11 @@ public class SetInfo {
     @UpdateTimestamp
     private Date modifiedAt;
 
+    private String domain;
+
+    private String status;
     @OneToMany
+    @Cascade(value = CascadeType.ALL)
     @JoinColumn(name = "set_id")
     private List<Question> questions;
 
