@@ -22,28 +22,28 @@ public class AssessmentController {
 
 
     @GetMapping
-    public ResponseEntity<List<SetInfo>> getAllAssessments() {
-        List<SetInfo> assessments = assessmentService.getAllAssessments();
+    public ResponseEntity<List<SetDto>> getAllAssessments() {
+        List<SetDto> assessments = assessmentService.getAllSet();
         return ResponseEntity.ok(assessments);
     }
     @PostMapping("/createset")
     public ResponseEntity<SetInfo> createAssessment(@RequestBody SetInfo fullResponse) {
-        SetInfo createdResponse = assessmentService.createAssessment(fullResponse);
+        SetInfo createdResponse = assessmentService.createSetInfo(fullResponse);
         return new ResponseEntity<>(createdResponse, HttpStatus.CREATED);
     }
     @GetMapping("/{setname}")
     public ResponseEntity<SetInfo> getAssessmentBySetName(@PathVariable String setname) {
-        SetInfo assessment = assessmentService.getAssessmentBySetName(setname);
+        SetInfo assessment = assessmentService.getSetBySetName(setname);
         return ResponseEntity.ok(assessment);
     }
 
     @PutMapping("/{setName}/{questionId}")
-    public ResponseEntity<Question> updateQuestionInAssessment(@PathVariable String setName, @PathVariable String questionId) {
-        Question question = assessmentService.updateQuestionInAssessment(setName, questionId);
-        return ResponseEntity.ok(question);
+    public ResponseEntity<Question> updateQuestionInAssessment(@PathVariable String setName, @PathVariable Integer questionId,@RequestBody Question question) {
+        Question rquestion = assessmentService.modifySetQuestionInfo(setName, questionId,question);
+        return ResponseEntity.ok(rquestion);
     }
     @DeleteMapping("/{setName}/{questionId}")
-    public ResponseEntity<Void> deleteQuestionFromAssessment(@PathVariable String setName, @PathVariable String questionId) {
+    public ResponseEntity<Void> deleteQuestionFromAssessment(@PathVariable String setName, @PathVariable Integer questionId) {
         assessmentService.deleteQuestionFromAssessment(setName, questionId);
         return ResponseEntity.noContent().build();
     }

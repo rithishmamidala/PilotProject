@@ -102,4 +102,14 @@ public class AssessmentService {
             }
 
     }
+
+    public void deleteQuestionFromAssessment(String setName, Integer questionId) {
+        Optional<SetInfo> setInfo = setInfoRepository.findBySetName(setName);
+        Optional<Question> question = questionRepository.findById(questionId);
+        if (question.isPresent() && setInfo.isPresent()){
+            questionRepository.deleteById(questionId);
+        } else {
+            throw new RuntimeException("question/set doesnt exist");
+        }
+    }
 }
