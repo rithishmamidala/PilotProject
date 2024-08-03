@@ -15,10 +15,9 @@ public class Answer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String answerId;
+    private Integer answerId;
     private String answer;
     private String suggestion;
 
-    @ManyToOne
-    private Question question;
+
 }

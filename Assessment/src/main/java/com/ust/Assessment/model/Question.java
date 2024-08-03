@@ -15,12 +15,12 @@ public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String questionId;
+    private Integer questionId;
     private String questionText;
 
-    @ManyToOne
-    private SetInfo set;
+
 
     @OneToMany
+    @JoinColumn(name = "question_id")
     private List<Answer> answers;
 }
