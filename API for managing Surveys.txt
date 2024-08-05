@@ -123,6 +123,16 @@ paths:
                   type: string
                 setName:
                   type: string
+                questions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        questionId:
+                          type: string
+                        questionText:
+                          type: string
+                        
       responses:
         '201':
           description: Survey created successfully
