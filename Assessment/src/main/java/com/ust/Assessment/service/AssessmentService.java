@@ -1,6 +1,10 @@
 package com.ust.Assessment.service;
 
+import com.ust.Assessment.dto.ResponseAnswerDto;
+import com.ust.Assessment.dto.ResponseQuestionDto;
+import com.ust.Assessment.dto.ResponseSetDto;
 import com.ust.Assessment.dto.SetDto;
+import com.ust.Assessment.exception.SetNotFoundException;
 import com.ust.Assessment.model.Answer;
 import com.ust.Assessment.model.Question;
 import com.ust.Assessment.model.SetInfo;
@@ -28,44 +32,159 @@ public class AssessmentService {
     @Autowired
     private AnswerRepository answerRepository;
 
-    public SetInfo createSetInfo(SetInfo setInfo) {
-
-        createQuestion(setInfo.getQuestions());
-        return setInfoRepository.save(setInfo);
+    // Function to map Answer to ResponseAnswerDto, now accepting questionId as a parameter
+    private ResponseAnswerDto mapAnswerToDto(Answer answer, Integer questionId) {
+        ResponseAnswerDto responseAnswerDto = new ResponseAnswerDto();
+        responseAnswerDto.setQuestionId(questionId);
+        responseAnswerDto.setAnswerId(answer.getAnswerId());
+        responseAnswerDto.setAnswer(answer.getAnswer());
+        responseAnswerDto.setSuggestion(answer.getSuggestion());
+        return responseAnswerDto;
     }
 
-    public List<Question> createQuestion(List<Question> questions) {
+    // Function to map Question to ResponseQuestionDto, now accepting setId as a parameter
+    private ResponseQuestionDto mapQuestionToDto(Question question, Integer setId) {
+        ResponseQuestionDto responseQuestionDto = new ResponseQuestionDto();
+        responseQuestionDto.setSetId(setId);
+        responseQuestionDto.setQuestionId(question.getQuestionId());
+        responseQuestionDto.setQuestionText(question.getQuestionText());
 
-
-        List<Question> savedQuestions = questions.stream()
-                .map(question -> {
-                    // Iterate through each answer in the question
-                    List<Answer> savedAnswers = question.getAnswers().stream()
-                            .map(answer -> createAnswer(answer)) // Save each answer
-                            .collect(Collectors.toList());
-
-                    // Set the saved answers back to the question
-                    question.setAnswers(savedAnswers);
-
-                    // Save the question
-                    return questionRepository.save(question);
-                })
+        // Map each Answer in the Question to ResponseAnswerDto, passing the questionId
+        List<ResponseAnswerDto> responseAnswers = question.getAnswers().stream()
+                .map(answer -> mapAnswerToDto(answer, question.getQuestionId()))
                 .collect(Collectors.toList());
 
-        return savedQuestions;
+        responseQuestionDto.setAnswers(responseAnswers);
+        return responseQuestionDto;
     }
-    public Answer createAnswer(Answer answer) {
-        return answerRepository.save(answer);
+
+    // Function to map SetInfo to ResponseSetDto
+    private ResponseSetDto mapSetInfoToDto(SetInfo setInfo) {
+        ResponseSetDto responseSetDto = new ResponseSetDto();
+        responseSetDto.setSetId(setInfo.getSetId());
+        responseSetDto.setSetName(setInfo.getSetName());
+        responseSetDto.setCreatedBy(setInfo.getCreatedBy());
+        responseSetDto.setCreatedAt(setInfo.getCreatedAt());
+        responseSetDto.setModifiedAt(setInfo.getModifiedAt());
+        responseSetDto.setDomain(setInfo.getDomain());
+        responseSetDto.setStatus(setInfo.getStatus());
+
+        // Map each Question in the SetInfo to ResponseQuestionDto, passing the setId
+        List<ResponseQuestionDto> responseQuestions = setInfo.getQuestions().stream()
+                .map(question -> mapQuestionToDto(question, setInfo.getSetId()))
+                .collect(Collectors.toList());
+
+        responseSetDto.setQuestions(responseQuestions);
+        return responseSetDto;
     }
+
+    public ResponseSetDto getSetBySetName(String setname)  {
+        // Retrieve all SetInfo entities from the repository
+        Optional<SetInfo> setInfos = setInfoRepository.findBySetName(setname);
+
+        if (setInfos.isPresent()) {
+            SetInfo setInfo = setInfos.get();
+            ResponseSetDto responseSetDto = mapSetInfoToDto(setInfo);
+
+            return responseSetDto;
+
+        }
+        return null;
+        // Map each SetInfo to ResponseSetDto
+
+
+    }
+    public ResponseSetDto saveSetInfo(SetInfo setInfo) {
+        // Save each question and its associated answers
+        for (Question question : setInfo.getQuestions()) {
+            // Save each answer with the questionId
+            for (Answer answer : question.getAnswers()) {
+                answerRepository.save(answer);
+            }
+            // Save the question
+            questionRepository.save(question);
+        }
+        // Save the set itself
+        setInfoRepository.save(setInfo);
+
+        // Map the saved SetInfo to ResponseSetDto
+        return mapSetInfoToDto(setInfo);
+    }
+
+//    public ResponseSetDto saveSetInfo(SetInfo setInfo) {
+//        // Save all answers, questions, and the set itself
+//        for (Question question : setInfo.getQuestions()) {
+//            for (Answer answer : question.getAnswers()) {
+//                answerRepository.save(answer);
+//            }
+//            questionRepository.save(question);
+//        }
+//        setInfoRepository.save(setInfo);
+//
+//        // Map saved SetInfo to ResponseSetDto
+//        ResponseSetDto responseSetDto = new ResponseSetDto();
+//        responseSetDto.setSetId(setInfo.getSetId());
+//        responseSetDto.setSetName(setInfo.getSetName());
+//        responseSetDto.setCreatedBy(setInfo.getCreatedBy());
+//        responseSetDto.setCreatedAt(setInfo.getCreatedAt());
+//        responseSetDto.setModifiedAt(setInfo.getModifiedAt());
+//        responseSetDto.setDomain(setInfo.getDomain());
+//        responseSetDto.setStatus(setInfo.getStatus());
+//
+//        // Convert Questions to ResponseQuestionDtos
+//        List<ResponseQuestionDto> responseQuestions = setInfo.getQuestions().stream().map(question -> {
+//            ResponseQuestionDto responseQuestionDto = new ResponseQuestionDto();
+//            responseQuestionDto.setSetId(setInfo.getSetId());
+//            responseQuestionDto.setQuestionId(question.getQuestionId());
+//            responseQuestionDto.setQuestionText(question.getQuestionText());
+//
+//            // Convert Answers to ResponseAnswerDtos
+//            List<ResponseAnswerDto> responseAnswers = question.getAnswers().stream().map(answer -> {
+//                ResponseAnswerDto responseAnswerDto = new ResponseAnswerDto();
+//                responseAnswerDto.setQuestionId(question.getQuestionId());
+//                responseAnswerDto.setAnswerId(answer.getAnswerId());
+//                responseAnswerDto.setAnswer(answer.getAnswer());
+//                responseAnswerDto.setSuggestion(answer.getSuggestion());
+//                return responseAnswerDto;
+//            }).collect(Collectors.toList());
+//
+//            responseQuestionDto.setAnswers(responseAnswers);
+//            return responseQuestionDto;
+//        }).collect(Collectors.toList());
+//
+//        responseSetDto.setQuestions(responseQuestions);
+//
+//        return responseSetDto;
+//    }
+//
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public List<SetInfo> getSetInfo() {
         return setInfoRepository.findAll();
     }
 
 
-    public SetInfo getSetBySetName(String setname) {
-        return setInfoRepository.findBySetName(setname).get();
-    }
+//    public ResponseSetDto getSetBySetName(String setname) {
+//        return setInfoRepository.findBySetName(setname).get();
+//    }
 
     public List<SetDto> getAllSet() {
 

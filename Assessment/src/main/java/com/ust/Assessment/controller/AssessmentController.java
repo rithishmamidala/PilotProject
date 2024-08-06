@@ -1,5 +1,6 @@
 package com.ust.Assessment.controller;
 
+import com.ust.Assessment.dto.ResponseSetDto;
 import com.ust.Assessment.dto.SetDto;
 import com.ust.Assessment.model.Question;
 import com.ust.Assessment.model.SetInfo;
@@ -27,13 +28,13 @@ public class AssessmentController {
         return ResponseEntity.ok(assessments);
     }
     @PostMapping("/createset")
-    public ResponseEntity<SetInfo> createAssessment(@RequestBody SetInfo fullResponse) {
-        SetInfo createdResponse = assessmentService.createSetInfo(fullResponse);
+    public ResponseEntity<ResponseSetDto> createAssessment(@RequestBody SetInfo fullResponse) {
+        ResponseSetDto createdResponse = assessmentService.saveSetInfo(fullResponse);
         return new ResponseEntity<>(createdResponse, HttpStatus.CREATED);
     }
     @GetMapping("/{setname}")
-    public ResponseEntity<SetInfo> getAssessmentBySetName(@PathVariable String setname) {
-        SetInfo assessment = assessmentService.getSetBySetName(setname);
+    public ResponseEntity<ResponseSetDto> getAssessmentBySetName(@PathVariable String setname) {
+        ResponseSetDto assessment = assessmentService.getSetBySetName(setname);
         return ResponseEntity.ok(assessment);
     }
 
