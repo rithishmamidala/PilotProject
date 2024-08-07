@@ -71,14 +71,15 @@ public class AssessmentService {
         return responseSetDto;
     }
 
-    public ResponseSetDto getSetBySetName(String setname)  {
+    public List<ResponseQuestionDto> getSetBySetName(String setname)  {
         Optional<SetInfo> setInfos = setInfoRepository.findBySetName(setname);
 
         if (setInfos.isPresent()) {
             SetInfo setInfo = setInfos.get();
             ResponseSetDto responseSetDto = mapSetInfoToDto(setInfo);
 
-            return responseSetDto;
+
+            return  responseSetDto.getQuestions();
 
         }
         return null;

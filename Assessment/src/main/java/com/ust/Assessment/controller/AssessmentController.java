@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/assessment/")
+@RequestMapping("/assessment")
 public class AssessmentController {
 
 
@@ -32,7 +32,7 @@ public class AssessmentController {
         return new ResponseEntity<>(assessmentService.saveSetInfo(fullResponse), HttpStatus.CREATED);
     }
     @GetMapping("/{setname}")
-    public ResponseEntity<ResponseSetDto> getAssessmentBySetName(@PathVariable String setname) {
+    public ResponseEntity<List<ResponseQuestionDto>> getAssessmentBySetName(@PathVariable String setname) {
         return ResponseEntity.ok(assessmentService.getSetBySetName(setname));
     }
 
