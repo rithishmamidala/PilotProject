@@ -16,7 +16,7 @@ public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer answerId;
-    private String answer;
+    private String answerText;
     private String suggestion;
 
 

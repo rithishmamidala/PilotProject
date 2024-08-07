@@ -1,5 +1,6 @@
 package com.ust.Assessment.controller;
 
+import com.ust.Assessment.dto.ResponseQuestionDto;
 import com.ust.Assessment.dto.ResponseSetDto;
 import com.ust.Assessment.dto.SetDto;
 import com.ust.Assessment.model.Question;
@@ -24,28 +25,25 @@ public class AssessmentController {
 
     @GetMapping
     public ResponseEntity<List<SetDto>> getAllAssessments() {
-        List<SetDto> assessments = assessmentService.getAllSet();
-        return ResponseEntity.ok(assessments);
+        return ResponseEntity.ok(assessmentService.getAllSet());
     }
-    @PostMapping("/createset")
+    @PostMapping
     public ResponseEntity<ResponseSetDto> createAssessment(@RequestBody SetInfo fullResponse) {
-        ResponseSetDto createdResponse = assessmentService.saveSetInfo(fullResponse);
-        return new ResponseEntity<>(createdResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(assessmentService.saveSetInfo(fullResponse), HttpStatus.CREATED);
     }
     @GetMapping("/{setname}")
     public ResponseEntity<ResponseSetDto> getAssessmentBySetName(@PathVariable String setname) {
-        ResponseSetDto assessment = assessmentService.getSetBySetName(setname);
-        return ResponseEntity.ok(assessment);
+        return ResponseEntity.ok(assessmentService.getSetBySetName(setname));
     }
 
-    @PutMapping("/{setName}/{questionId}")
-    public ResponseEntity<Question> updateQuestionInAssessment(@PathVariable String setName, @PathVariable Integer questionId,@RequestBody Question question) {
-        Question rquestion = assessmentService.modifySetQuestionInfo(setName, questionId,question);
-        return ResponseEntity.ok(rquestion);
+    @PutMapping("/{setId}/{questionId}")
+    public ResponseEntity<ResponseQuestionDto> updateQuestionInAssessment(@PathVariable Integer setId, @PathVariable Integer questionId, @RequestBody Question question) {
+
+        return ResponseEntity.ok(assessmentService.modifySetQuestionInfo(setId, questionId,question));
     }
-    @DeleteMapping("/{setName}/{questionId}")
-    public ResponseEntity<Void> deleteQuestionFromAssessment(@PathVariable String setName, @PathVariable Integer questionId) {
-        assessmentService.deleteQuestionFromAssessment(setName, questionId);
+    @DeleteMapping("/{setId}/{questionId}")
+    public ResponseEntity<Void> deleteQuestionFromAssessment(@PathVariable Integer setId, @PathVariable Integer questionId) {
+        assessmentService.deleteQuestionFromAssessment(setId, questionId);
         return ResponseEntity.noContent().build();
     }
 
