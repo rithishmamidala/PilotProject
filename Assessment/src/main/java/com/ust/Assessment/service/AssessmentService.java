@@ -4,6 +4,7 @@ import com.ust.Assessment.dto.ResponseAnswerDto;
 import com.ust.Assessment.dto.ResponseQuestionDto;
 import com.ust.Assessment.dto.ResponseSetDto;
 import com.ust.Assessment.dto.SetDto;
+import com.ust.Assessment.exception.SetNameNotFoundException;
 import com.ust.Assessment.exception.SetNotFoundException;
 import com.ust.Assessment.model.Answer;
 import com.ust.Assessment.model.Question;
@@ -89,8 +90,9 @@ public class AssessmentService {
             return responseSetDto;
 
         }
-        return null;
-        // Map each SetInfo to ResponseSetDto
+        else {
+            throw new SetNameNotFoundException(setname);
+        }
 
 
     }
