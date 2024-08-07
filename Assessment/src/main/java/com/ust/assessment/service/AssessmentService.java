@@ -7,7 +7,7 @@ import com.ust.assessment.dto.SetDto;
 import com.ust.assessment.exception.QuestionIdNotFoundException;
 import com.ust.assessment.exception.SetIdNotFoundException;
 import com.ust.assessment.exception.SetNameNotFoundException;
-import com.ust.assessment.model.Answer;
+import com.ust.assessment.model.Option;
 import com.ust.assessment.model.Question;
 import com.ust.assessment.model.SetInfo;
 import com.ust.assessment.repository.AnswerRepository;
@@ -32,11 +32,11 @@ public class AssessmentService {
     @Autowired
     private AnswerRepository answerRepository;
 
-    private ResponseAnswerDto mapAnswerToDto(Answer answer, Integer questionId) {
+    private ResponseAnswerDto mapAnswerToDto(Option answer, Integer questionId) {
         ResponseAnswerDto responseAnswerDto = new ResponseAnswerDto();
         responseAnswerDto.setQuestionId(questionId);
         responseAnswerDto.setAnswerId(answer.getAnswerId());
-        responseAnswerDto.setAnswer(answer.getAnswerText());
+        responseAnswerDto.setAnswer(answer.getAnswer());
         responseAnswerDto.setSuggestion(answer.getSuggestion());
         return responseAnswerDto;
     }
@@ -89,7 +89,7 @@ public class AssessmentService {
     }
     public ResponseSetDto saveSetInfo(SetInfo setInfo) {
         for (Question question : setInfo.getQuestions()) {
-            for (Answer answer : question.getAnswers()) {
+            for (Option answer : question.getAnswers()) {
                 answerRepository.save(answer);
             }
             questionRepository.save(question);

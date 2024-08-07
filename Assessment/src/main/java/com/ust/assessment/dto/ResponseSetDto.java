@@ -1,5 +1,6 @@
 package com.ust.assessment.dto;
 
+import com.ust.assessment.model.SetStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ public class ResponseSetDto {
 
     private String domain;
 
-    private String status;
+    private SetStatus status;
 
     private List<ResponseQuestionDto> questions;
 }

@@ -32,7 +32,8 @@ public class SetInfo {
 
     private String domain;
 
-    private String status;
+    @Enumerated
+    private SetStatus status;
     @OneToMany
     @Cascade(value = CascadeType.ALL)
     @JoinColumn(name = "set_id")

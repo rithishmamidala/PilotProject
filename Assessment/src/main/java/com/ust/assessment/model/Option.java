@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Answer {
+public class Option {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer answerId;
-    private String answerText;
+    private String answer;
     private String suggestion;
 
 

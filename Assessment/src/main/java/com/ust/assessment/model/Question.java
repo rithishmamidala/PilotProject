@@ -25,5 +25,5 @@ public class Question {
     @OneToMany
     @JoinColumn(name = "question_id")
     @Cascade(value = CascadeType.ALL)
-    private List<Answer> answers;
+    private List<Option> answers;
 }
