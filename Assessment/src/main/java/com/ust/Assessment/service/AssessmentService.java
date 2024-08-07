@@ -47,7 +47,7 @@ public class AssessmentService {
 
         List<ResponseAnswerDto> responseAnswers = question.getAnswers().stream()
                 .map(answer -> mapAnswerToDto(answer, question.getQuestionId()))
-                .collect(Collectors.toList());
+                .toList();
 
         responseQuestionDto.setAnswers(responseAnswers);
         return responseQuestionDto;
@@ -65,7 +65,7 @@ public class AssessmentService {
 
         List<ResponseQuestionDto> responseQuestions = setInfo.getQuestions().stream()
                 .map(question -> mapQuestionToDto(question, setInfo.getSetId()))
-                .collect(Collectors.toList());
+                .toList();
 
         responseSetDto.setQuestions(responseQuestions);
         return responseSetDto;
@@ -86,19 +86,14 @@ public class AssessmentService {
 
     }
     public ResponseSetDto saveSetInfo(SetInfo setInfo) {
-        // Save each question and its associated answers
         for (Question question : setInfo.getQuestions()) {
-            // Save each answer with the questionId
             for (Answer answer : question.getAnswers()) {
                 answerRepository.save(answer);
             }
-            // Save the question
             questionRepository.save(question);
         }
-        // Save the set itself
         setInfoRepository.save(setInfo);
 
-        // Map the saved SetInfo to ResponseSetDto
         return mapSetInfoToDto(setInfo);
     }
 
