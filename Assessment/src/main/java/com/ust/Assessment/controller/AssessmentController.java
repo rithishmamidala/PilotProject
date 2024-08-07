@@ -18,9 +18,12 @@ import java.util.List;
 public class AssessmentController {
 
 
-    @Autowired
-    private AssessmentService assessmentService;
 
+    private final AssessmentService assessmentService;
+
+    public AssessmentController(AssessmentService assessmentService) {
+        this.assessmentService = assessmentService;
+    }
 
 
     @GetMapping

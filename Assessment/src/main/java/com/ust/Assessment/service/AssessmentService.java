@@ -21,14 +21,15 @@ import java.util.stream.Collectors;
 @Service
 public class AssessmentService {
 
-    @Autowired
-    private SetInfoRepository setInfoRepository;
+    private final SetInfoRepository setInfoRepository;
+    private final QuestionRepository questionRepository;
+    private final AnswerRepository answerRepository;
 
-    @Autowired
-    private QuestionRepository questionRepository;
-
-    @Autowired
-    private AnswerRepository answerRepository;
+    public AssessmentService(SetInfoRepository setInfoRepository, QuestionRepository questionRepository, AnswerRepository answerRepository) {
+        this.setInfoRepository = setInfoRepository;
+        this.questionRepository = questionRepository;
+        this.answerRepository = answerRepository;
+    }
 
     private ResponseAnswerDto mapAnswerToDto(Answer answer, Integer questionId) {
         ResponseAnswerDto responseAnswerDto = new ResponseAnswerDto();
