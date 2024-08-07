@@ -1,4 +1,4 @@
-package com.ust.Assessment.exception;
+package com.ust.assessment.exception;
 
 public class QuestionIdNotFoundException extends RuntimeException {
     public QuestionIdNotFoundException(Integer questionId) {

@@ -1,4 +1,4 @@
-package com.ust.Assessment.exception;
+package com.ust.assessment.exception;
 
 public class SetIdNotFoundException extends RuntimeException{
     public SetIdNotFoundException(Integer setId) {

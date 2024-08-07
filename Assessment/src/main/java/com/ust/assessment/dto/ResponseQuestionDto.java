@@ -1,13 +1,8 @@
-package com.ust.Assessment.dto;
+package com.ust.assessment.dto;
 
-import com.ust.Assessment.model.Answer;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 import java.util.List;
 
