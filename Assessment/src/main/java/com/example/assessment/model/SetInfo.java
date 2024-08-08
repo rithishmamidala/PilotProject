@@ -1,4 +1,4 @@
-package com.ust.assessment.model;
+package com.example.assessment.model;
 
 
 import jakarta.persistence.*;
@@ -38,5 +38,4 @@ public class SetInfo {
     @Cascade(value = CascadeType.ALL)
     @JoinColumn(name = "set_id")
     private List<Question> questions;
-
 }

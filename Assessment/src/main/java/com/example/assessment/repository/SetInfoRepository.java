@@ -1,6 +1,6 @@
-package com.ust.assessment.repository;
+package com.example.assessment.repository;
 
-import com.ust.assessment.model.SetInfo;
+import com.example.assessment.model.SetInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

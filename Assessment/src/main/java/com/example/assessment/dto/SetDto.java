@@ -1,6 +1,6 @@
-package com.ust.assessment.dto;
+package com.example.assessment.dto;
 
-import com.ust.assessment.model.SetStatus;
+import com.example.assessment.model.SetStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

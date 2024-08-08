@@ -1,11 +1,11 @@
-package com.ust.assessment.controller;
+package com.example.assessment.controller;
 
-import com.ust.assessment.dto.ResponseQuestionDto;
-import com.ust.assessment.dto.ResponseSetDto;
-import com.ust.assessment.dto.SetDto;
-import com.ust.assessment.model.Question;
-import com.ust.assessment.model.SetInfo;
-import com.ust.assessment.service.AssessmentService;
+import com.example.assessment.model.SetInfo;
+import com.example.assessment.service.AssessmentService;
+import com.example.assessment.dto.ResponseQuestionDto;
+import com.example.assessment.dto.ResponseSetDto;
+import com.example.assessment.dto.SetDto;
+import com.example.assessment.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

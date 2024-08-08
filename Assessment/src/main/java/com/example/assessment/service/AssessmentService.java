@@ -1,18 +1,18 @@
-package com.ust.assessment.service;
+package com.example.assessment.service;
 
-import com.ust.assessment.dto.ResponseAnswerDto;
-import com.ust.assessment.dto.ResponseQuestionDto;
-import com.ust.assessment.dto.ResponseSetDto;
-import com.ust.assessment.dto.SetDto;
-import com.ust.assessment.exception.QuestionIdNotFoundException;
-import com.ust.assessment.exception.SetIdNotFoundException;
-import com.ust.assessment.exception.SetNameNotFoundException;
-import com.ust.assessment.model.Option;
-import com.ust.assessment.model.Question;
-import com.ust.assessment.model.SetInfo;
-import com.ust.assessment.repository.AnswerRepository;
-import com.ust.assessment.repository.QuestionRepository;
-import com.ust.assessment.repository.SetInfoRepository;
+import com.example.assessment.exception.QuestionIdNotFoundException;
+import com.example.assessment.exception.SetIdNotFoundException;
+import com.example.assessment.exception.SetNameNotFoundException;
+import com.example.assessment.dto.ResponseAnswerDto;
+import com.example.assessment.dto.ResponseQuestionDto;
+import com.example.assessment.dto.ResponseSetDto;
+import com.example.assessment.dto.SetDto;
+import com.example.assessment.model.Option;
+import com.example.assessment.model.Question;
+import com.example.assessment.model.SetInfo;
+import com.example.assessment.repository.AnswerRepository;
+import com.example.assessment.repository.QuestionRepository;
+import com.example.assessment.repository.SetInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

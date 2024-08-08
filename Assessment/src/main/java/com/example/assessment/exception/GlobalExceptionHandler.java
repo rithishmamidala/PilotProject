@@ -1,4 +1,4 @@
-package com.ust.assessment.exception;
+package com.example.assessment.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

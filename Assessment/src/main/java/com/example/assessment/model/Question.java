@@ -1,4 +1,4 @@
-package com.ust.assessment.model;
+package com.example.assessment.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

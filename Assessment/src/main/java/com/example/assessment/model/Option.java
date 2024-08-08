@@ -1,15 +1,23 @@
-package com.ust.assessment.dto;
+package com.example.assessment.model;
 
+
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseAnswerDto {
-    private Integer questionId;
+@Data
+public class Option {
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer answerId;
     private String answer;
     private String suggestion;
+
+
 }

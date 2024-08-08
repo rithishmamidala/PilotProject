@@ -1,4 +1,4 @@
-package com.ust.assessment.dto;
+package com.example.assessment.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
