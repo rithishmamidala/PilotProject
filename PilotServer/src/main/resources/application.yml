@@ -1,5 +1,0 @@
-spring:
-  application:
-    name: PilotServer
-  config:
-    import: optional:configserver:http://localhost:8888
