@@ -1,0 +1,22 @@
+eureka:
+  client:
+    register-with-eureka: true
+server:
+  port: 8222
+spring:
+  application:
+    name: survey-management
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: Assessment
+          uri: http://localhost:9098
+          predicates:
+            - Path=/assessment/**
+        - id: Surveys
+          uri: http://localhost:9099
+          predicates:
+            - Path=/survey/**
