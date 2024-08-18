@@ -1,25 +1,42 @@
-import logo from './logo.svg';
+
+import React, { useState } from 'react';
+
+import Sidebar from './components/SideBar/SideBar';
+
+
+import AssessmentTable from './components/AssessmentTable/AssessmentTable';
+
+import Heading from './components/Header/Header'
+
+import CreateAssessment from './components/CreateAssessment/CreateAssessment'; 
+
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [showCreateAssessment, setShowCreateAssessment] = useState(false);
+
+    const handleCreateAssessmentClick = () => {
+        setShowCreateAssessment(true);
+    };
+
+    return (
+        <div className="app">
+            <Sidebar />
+            <div className="content">
+                <Heading />
+                {showCreateAssessment ? (
+                    <CreateAssessment /> // Display component when button is clicked
+                ) : (
+                    <>
+                        <AssessmentTable />
+                        <button onClick={handleCreateAssessmentClick}>
+                            Create New Assessment
+                        </button>
+                    </>
+                )}
+            </div>
+        </div>
+    );
 }
 
 export default App;

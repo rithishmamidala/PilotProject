@@ -1,0 +1,52 @@
+.create-assessment {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.create-assessment h2 {
+    margin-bottom: 20px;
+}
+
+.form-group-container {
+    display: flex;
+    justify-content: space-between; /* Distribute space between inputs */
+    gap: 20px; /* Adjust space between inputs */
+    margin-bottom: 15px;
+}
+
+.form-group {
+    flex: 1;
+}
+
+.set-name {
+    margin-right: 10px; /* Space between the inputs */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input, 
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
