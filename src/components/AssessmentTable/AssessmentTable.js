@@ -1,20 +1,31 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import './AssessmentTable.css';
 
-const assessments = [
-    { id: 1, name: "CodeLink", creator: "Arijit", domain: "AEG", status: "Approved" },
-    { id: 2, name: "ByteBundle", creator: "Hemanth", domain: "OD", status: "Pending" },
-    { id: 3, name: "TechTribe", creator: "Vasantha", domain: "CSGT", status: "Approved" },
-    { id: 4, name: "DataDuo", creator: "Brahmaiah", domain: "DGT", status: "Approved" },
-    { id: 5, name: "CodeClique", creator: "nitish", domain: "CSGT", status: "Pending" },
-    { id: 6, name: "DataHub", creator: "Ragini", domain: "AEG", status: "Pending" },
-    { id: 7, name: "TechSync", creator: "Neha", domain: "OD", status: "Pending" },
-];
+
+import {EList}  from '../../Service/EmployeeService';
+
+
+
 
 const AssessmentTable = () => {
+    
+
+let [assessments,getAssessments] = useState([]);
+
+    useEffect(()=>{
+        EList().then((res) => {
+            getAssessments(res.data);
+
+        }).catch(()=>{
+            alert("Something Went Wrong");
+
+        });
+  
+    },[])
+    console.log(assessments);
     return (
         <div className="assessment-table">
-            
+         
             <table>
                 <thead>
                     <tr>
@@ -27,10 +38,10 @@ const AssessmentTable = () => {
                 </thead>
                 <tbody>
                     {assessments.map((assessment) => (
-                        <tr key={assessment.id}>
-                            <td>{assessment.id}</td>
-                            <td>{assessment.name}</td>
-                            <td>{assessment.creator}</td>
+                        <tr key={assessment.srlNo}>
+                            <td>{assessment.srlNo}</td>
+                            <td>{assessment.setName}</td>
+                            <td>{assessment.createdBy}</td>
                             <td>{assessment.domain}</td>
                             <td>
                                 <span className={`status ${assessment.status.toLowerCase()}`}>

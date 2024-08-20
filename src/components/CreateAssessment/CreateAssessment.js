@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import './CreateAssessment.css';
+import axios from 'axios';
+
+const employeeList_URL = `http://localhost:9098/admin`; 
+
 
 const domains = ["AEG", "OD", "CSGT", "DGT"]; // Example domain options
 
@@ -12,10 +16,28 @@ const CreateAssessment = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle form submission logic
         console.log("Set Name:", setName);
         console.log("Selected Domain:", selectedDomain);
     };
+const add = () =>{
+    if(setName === '')
+    {
+        alert("fill the input fields first");
+    }
+    else{
+        const PList= () => axios.post(employeeList_URL+"/add",  {
+            setName: setName,
+            createdBy: "USER",
+            domain: selectedDomain,
+            status: "PENDING"});
+        
+                PList().then((res)=>{
+                    console.log("data posted");
+                }).catch(()=>{
+                alert("some thing went wrong!")});
+    }
+    }
+
 
     return (
         <div className="create-assessment">
@@ -50,7 +72,7 @@ const CreateAssessment = () => {
                         </select>
                     </div>
                 </div>
-                <button type="submit">Create Assessment</button>
+                <button type="submit" onClick={add}>Create Assessment</button>
             </form>
         </div>
     );
